@@ -8,6 +8,7 @@ CONFIG += c++17 cmdline
 
 SOURCES += \
         main.cpp \
+        models/equipo.cpp \
         models/jugador.cpp
 
 # Default rules for deployment.
@@ -16,4 +17,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    models/equipo.h \
     models/jugador.h
