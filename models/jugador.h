@@ -30,7 +30,7 @@ public:
     string getName() const;
     string getPos() const;
     unsigned short getDor() const;
-
+    //Torneo
     unsigned short getGolesPartido() const;
     unsigned short getAmarillasPartido() const;
     unsigned short getRojasPartido() const;

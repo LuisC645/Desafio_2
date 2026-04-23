@@ -9,7 +9,8 @@ CONFIG += c++17 cmdline
 SOURCES += \
         main.cpp \
         models/equipo.cpp \
-        models/jugador.cpp
+        models/jugador.cpp \
+        models/partido.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -18,4 +19,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     models/equipo.h \
-    models/jugador.h
+    models/jugador.h \
+    models/partido.h
