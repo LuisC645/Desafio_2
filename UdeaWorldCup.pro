@@ -20,4 +20,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     models/equipo.h \
     models/jugador.h \
-    models/partido.h
+    models/partido.h \
+    structures/nodo.h
