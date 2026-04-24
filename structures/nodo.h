@@ -1,7 +1,7 @@
 #ifndef NODO_H
 #define NODO_H
 
-template <class Type>
+template <typename Type>
 
 class nodo {
 

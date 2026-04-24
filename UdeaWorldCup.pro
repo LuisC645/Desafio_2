@@ -21,4 +21,5 @@ HEADERS += \
     models/equipo.h \
     models/jugador.h \
     models/partido.h \
+    structures/list.h \
     structures/nodo.h
