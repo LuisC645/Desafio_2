@@ -17,48 +17,59 @@ public:
     // Constructor
     list(): first(nullptr), size(0) {}
 
-    // Destructor
     ~list(){
 
         while(first != nullptr){
 
             nodo<Type>* temp = first;
-            first = first -> next;
+            first = first->getNext();
+
             delete temp;
             memGlobalNodos -= sizeof(nodo<Type>);
         }
     }
 
-    void add(Type dato, unsigned short pos){
+    void add(Type dato, unsigned short pos) {
 
-        if(pos < 0 || pos > size) {
-            return;
-        }
+        if(pos > size) return;
 
         nodo<Type>* newDato = new nodo<Type>(dato);
+
         memGlobalNodos += sizeof(nodo<Type>);
 
-        if(pos == 0){
-            newDato -> next;
+        if(pos == 0) {
+
+            newDato->setNext(first);
+            first = newDato;
+
         } else {
+
             nodo<Type>* temp = first;
 
-            for(unsigned short i = 0; i < pos - 1; i++){
-                newDato -> next = temp -> next;
-                newDato -> next = newDato;
+            for(unsigned short i=0; i<pos-1; i++) {
+                temp = temp->getNext();
             }
+
+            newDato->setNext(temp->getNext());
+            temp->setNext(newDato);
         }
+
         size++;
     }
 
-    Type consult(unsigned short pos) const{
-        if(pos < 0 || pos >= size){
-            nodo<Type>* temp = first;
+    Type consult(unsigned short pos) const {
 
-            for(unsigned int i = 0; i < pos; i++){
-                return temp -> dato;
-            }
+        if(pos >= size) {
+            return Type();
         }
+
+        nodo<Type>* temp = first;
+
+        for(unsigned short i = 0; i < pos; i++) {
+            temp = temp->getNext();
+        }
+
+        return temp->getDato();
     }
 
     unsigned int getSize() const {

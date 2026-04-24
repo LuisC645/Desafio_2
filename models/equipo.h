@@ -3,6 +3,7 @@
 
 #include <string>
 #include "jugador.h"
+#include "../structures/list.h"
 
 using namespace std;
 
@@ -26,10 +27,12 @@ private:
     unsigned short golesFavorTorneo;
     unsigned short golesContraTorneo;
 
+    list<jugador*> plantilla;
+
 public:
 
     //Constructor
-    equipo(string pais, string tecnico, unsigned short rankingFIFA,
+    equipo(string pais, string confederacion, string tecnico, unsigned short rankingFIFA,
            unsigned short golesFavorHist, unsigned short golesContraHist, unsigned short partidosGanadosHist,
            unsigned short partidosEmpatadosHist, unsigned short partidosPerdidosHist);
 
@@ -42,24 +45,27 @@ public:
     string getTecnico() const;
 
     unsigned short getRankingFIFA() const;
+
+    short getGolesFavorTorneo() const;
+    short getGolesContraTorneo() const;
     unsigned short getPuntosTorneo() const;
-    unsigned short getGolesFavorTorneo() const;
-    unsigned short getGolesContraTorneo() const;
+
     unsigned short getGanadosHist() const;
     unsigned short getEmpatadosHist() const;
     unsigned short getPerdidosHist() const;
 
-    short getGolesFavorHist() const;
-    short getGolesContraHist() const;
+    unsigned short getGolesFavorHist() const;
+    unsigned short getGolesContraHist() const;
     short getDiferenciaGoles() const;
 
     // Funciones
     void sumPuntos(unsigned short puntos);
-    void registerResult(unsigned short golesFavor, unsigned short golesContra);
+    void registerResult(short golesFavor, short golesContra);
 
     // Reiniciar entre pruebas
     void restartStatsTorneo();
 
+    list<jugador*>& getPlantilla();
 };
 
 #endif // EQUIPO_H

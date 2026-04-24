@@ -26,7 +26,6 @@ public:
         dato = d;
     }
 
-
 };
 
 #endif // NODO_H

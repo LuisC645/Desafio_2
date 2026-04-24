@@ -45,7 +45,7 @@ void jugador::registerGol(){
 }
 void jugador::registerAmarilla() {
     amarillasPartido++;
-    if (amarillasPartido >= 2) {
+    if (amarillasPartido == 2 && rojasPartido == 0) {
         registerRoja();
     }
 }
@@ -68,6 +68,3 @@ void jugador::restartStatsPartido() {
     faltasPartido = 0;
     minutosPartido = 0;
 }
-
-
-

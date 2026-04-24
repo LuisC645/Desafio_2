@@ -1,34 +1,41 @@
 #include "equipo.h"
 
 
-equipo::equipo(string pais, string tecnico, unsigned short rankingFIFA,
+equipo::equipo(string pais, string confederacion, string tecnico, unsigned short rankingFIFA,
                unsigned short golesFavorHist, unsigned short golesContraHist, unsigned short partidosGanadosHist,
                unsigned short partidosEmpatadosHist, unsigned short partidosPerdidosHist):
 
-    pais(pais), tecnico(tecnico), rankingFIFA(rankingFIFA), golesFavorHist(golesFavorHist),
-    golesContraHist(golesContraHist), partidosGanadosHist(partidosGanadosHist),
+    pais(pais), confederacion(confederacion), tecnico(tecnico), rankingFIFA(rankingFIFA),
+    golesFavorHist(golesFavorHist), golesContraHist(golesContraHist), partidosGanadosHist(partidosGanadosHist),
     partidosEmpatadosHist(partidosEmpatadosHist), partidosPerdidosHist(partidosPerdidosHist),
     puntosTorneo(0), golesFavorTorneo(0), golesContraTorneo(0){
 
     for(int i=1; i <= 26; i++){
 
+        string pos = "";
+
         if(i == 1 || i == 12 || i == 23){
-            string pos = "Portero";
+            pos = "Portero";
         } else if(i <= 8){
-            string pos = "Defensa";
+            pos = "Defensa";
         } else if(i <= 18){
-            string pos = "Mediocampista";
+            pos = "Mediocampista";
         } else{
-            string pos = "Delantero";
+            pos = "Delantero";
         }
 
         string nameJugador = "Jugador_" + to_string(i) + "_" + pais;
-        // falta agregar logica para memoria (guardar pos memoria jugador)
+        plantilla.add(new jugador(nameJugador, pos, i), plantilla.getSize());
+
     }
 }
 
 // Destructor
-// Falta agregar logica para eliminar
+equipo::~equipo(){
+    for(unsigned int i = 0; i < 26; i++){
+        delete plantilla.consult(i);
+    }
+}
 
 // Getters
 string equipo::getPais() const {
@@ -46,24 +53,28 @@ string equipo::getTecnico() const {
 unsigned short equipo::getPuntosTorneo() const {
     return puntosTorneo;
 }
-unsigned short equipo::getGolesFavorTorneo() const {
+short equipo::getGolesFavorTorneo() const {
     return golesFavorTorneo;
 }
-unsigned short equipo::getGolesContraTorneo() const {
+short equipo::getGolesContraTorneo() const {
     return golesContraTorneo;
 }
 short equipo::getDiferenciaGoles() const {
     return (unsigned short)golesFavorTorneo - (unsigned short)golesContraTorneo;
 }
-short equipo::getGolesFavorHist() const {
+unsigned short equipo::getGolesFavorHist() const {
     return golesFavorHist;
 }
+unsigned short equipo::getGolesContraHist() const {
+    return golesContraHist;
+}
+
 
 // Funciones
 void equipo::sumPuntos(unsigned short puntos) {
     puntosTorneo += puntos;
 }
-void equipo::registerResult(unsigned short golesFavor, unsigned short golesContra) {
+void equipo::registerResult(short golesFavor, short golesContra) {
     golesFavorTorneo += golesFavor;
     golesContraTorneo += golesContra;
 }
@@ -71,4 +82,8 @@ void equipo::restartStatsTorneo() {
     puntosTorneo = 0;
     golesFavorTorneo = 0;
     golesContraTorneo = 0;
+}
+
+list<jugador*>& equipo::getPlantilla(){
+    return plantilla;
 }

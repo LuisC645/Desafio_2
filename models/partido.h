@@ -27,7 +27,7 @@ private:
 public:
     // constructor
     partido(string fecha, string hora, string sede, string arbitros[3],
-            equipo* local, equipo* vis, bool eliminatoria = false, bool prorroga = false);
+            equipo* local, equipo* visitante, bool eliminatoria = false, bool prorroga = false);
 
     // Getters
     equipo* getLocal() const;
@@ -35,7 +35,9 @@ public:
 
     // Funciones
     void simular();
+    void procesarEquipo(equipo* equipo, unsigned short golesMarcados, unsigned short minutos);
     void printResultado();
+    void printTablaJugadores(equipo* equipo);
 
 };
 
