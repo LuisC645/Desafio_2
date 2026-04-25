@@ -87,3 +87,6 @@ void equipo::restartStatsTorneo() {
 list<jugador*>& equipo::getPlantilla(){
     return plantilla;
 }
+
+// La sobrecarga se definirá luego, en proceso de evaluación
+

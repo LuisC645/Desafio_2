@@ -9,6 +9,7 @@ CONFIG += c++17 cmdline
 SOURCES += \
         main.cpp \
         models/equipo.cpp \
+        models/grupo.cpp \
         models/jugador.cpp \
         models/partido.cpp
 
@@ -19,6 +20,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     models/equipo.h \
+    models/grupo.h \
     models/jugador.h \
     models/partido.h \
     structures/list.h \

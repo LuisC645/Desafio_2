@@ -58,6 +58,10 @@ public:
     unsigned short getGolesContraHist() const;
     short getDiferenciaGoles() const;
 
+
+    // Sobrecarga de operadores
+    bool operator<(const equipo& other) const;
+
     // Funciones
     void sumPuntos(unsigned short puntos);
     void registerResult(short golesFavor, short golesContra);
