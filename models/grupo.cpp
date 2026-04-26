@@ -7,9 +7,13 @@ using namespace std;
 
 grupo::grupo(char id) : identificador(id) {}
 
-char grupo::getIdentificador() const { return identificador; }
+char grupo::getIdentificador() const {
+    return identificador;
+}
 
-list<equipo*>& grupo::getEquipos() { return equipos; }
+list<equipo*>& grupo::getEquipos() {
+    return equipos;
+}
 
 void grupo::agregarEquipo(equipo* e) {
 
@@ -31,14 +35,13 @@ long grupo::ordenFIFA() {
 
             // Usaremos la sobrecarga del operador, toca revisar
 
-            if (*e2 < *e1) {
+            // if (*e2 < *e1) {
 
-            }
+            //}
         }
     }
     return iter;
 }
-
 
 void grupo::printTablaPosiciones() {
     cout << "Grupo " << identificador << ":" << endl;

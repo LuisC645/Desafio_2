@@ -15,6 +15,8 @@ partido::partido(string fecha, string hora, string sede, string arb[3], equipo* 
     }
 }
 
+
+
 void partido::simular() {
 
     // Reiniciar stats partido a jugadores
@@ -208,3 +210,10 @@ void partido::printTablaJugadores(equipo* equipo){
 }
 
 
+unsigned short partido::getGolesL() const{
+    return golesL;
+}
+
+unsigned short partido::getGolesV() const{
+    return golesV;
+}

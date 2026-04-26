@@ -8,6 +8,7 @@ CONFIG += c++17 cmdline
 
 SOURCES += \
         main.cpp \
+        main/udeaworldcup.cpp \
         models/equipo.cpp \
         models/grupo.cpp \
         models/jugador.cpp \
@@ -19,6 +20,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    main/udeaworldcup.h \
     models/equipo.h \
     models/grupo.h \
     models/jugador.h \

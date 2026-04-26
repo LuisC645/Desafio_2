@@ -33,6 +33,9 @@ public:
     equipo* getLocal() const;
     equipo* getVisitante() const;
 
+    unsigned short getGolesL() const;
+    unsigned short getGolesV() const;
+
     // Funciones
     void simular();
     void procesarEquipo(equipo* equipo, unsigned short golesMarcados, unsigned short minutos);

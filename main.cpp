@@ -1,9 +1,5 @@
 #include <iostream>
-#include <ctime>
-#include <cstdlib>
-
-#include "models/equipo.h"
-#include "models/partido.h"
+#include "main/UdeaWorldCup.h"
 
 using namespace std;
 
@@ -12,104 +8,35 @@ unsigned long memGlobalNodos = 0;
 
 int main() {
 
-    srand(time(NULL));
 
-    cout << "TEST" << endl;
+    cout << "test" << endl;
 
-    equipo colombia(
-        "Colombia",
-        "LATAM",
-        "el tigre",
-        90,
-        0,
-        200,
-        1,
-        2,
-        200
-        );
-
-    equipo brasil(
-        "Brasil",
-        "KAKA",
-        "silva",
-        1,
-        100,
-        40,
-        110,
-        15,
-        16
-        );
-
-    cout << "Equipos melos" << endl;
+    UdeaWorldCup mundial;
 
 
-    for(unsigned short i = 0; i < 5; i++) {
-
-        jugador* j = colombia.getPlantilla().consult(i);
-
-        cout << "#"
-             << j->getDor()
-             << " - "
-             << j->getName()
-             << " - "
-             << j->getPos()
-             << endl;
-    }
-
-    string arbitros[3] = {
-        "lucho",
-        "bolo",
-        "garza"
-    };
-
-    // partido
-
-    partido p1(
-        "15/07/2026",
-        "18:00",
-        "la curva",
-        arbitros,
-        &colombia,
-        &brasil,
-        false,
-        false
-        );
-
-    cout << "partido melo" << endl;
-
-    // simular
-    cout << "conectando con betplay" << endl;
-
-    p1.simular();
-
-    cout << "Resultados" << endl;
-
-    p1.printResultado();
-
-    // Tabla rápida
+    cout << "Cargando archivo\n" << endl;
+    mundial.loadData();
+    cout << "ok" << endl;
 
 
-    cout << "======================================" << endl;
+    cout << "\nSorteo\n" << endl;
+    mundial.sorteoPartidos();
+    cout << "ok" << endl;
 
-    cout << colombia.getPais()
-         << " | Pts: " << colombia.getPuntosTorneo()
-         << " | GF: " << colombia.getGolesFavorTorneo()
-         << " | GC: " << colombia.getGolesContraTorneo()
-         << " | DG: " << colombia.getDiferenciaGoles()
-         << endl;
 
-    cout << brasil.getPais()
-         << " | Pts: " << brasil.getPuntosTorneo()
-         << " | GF: " << brasil.getGolesFavorTorneo()
-         << " | GC: " << brasil.getGolesContraTorneo()
-         << " | DG: " << brasil.getDiferenciaGoles()
-         << endl;
 
-    cout << "\nMemoria nodos usada: "
-         << memGlobalNodos
-         << " bytes" << endl;
+    cout << "fase grupos\n" << endl;
+    mundial.simularFaseGrupos();
+    cout << "ok" << endl;
 
-    cout << "Gracias guerreros" << endl;
+    cout << "eliminatorias" << endl;
+    mundial.simularEliminatorias();
+    cout << "ok" << endl;
+
+    cout << "finales????" << endl;
+    cout << "finales?????\n" << endl;
+    mundial.showStatsTorneo();
+    cout << "ok" << endl;
 
     return 0;
 }
