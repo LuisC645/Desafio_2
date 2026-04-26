@@ -12,13 +12,13 @@ UdeaWorldCup::UdeaWorldCup() : totalIteraciones(0), campeon(nullptr), subcampeon
 
 UdeaWorldCup::~UdeaWorldCup() {
     for (unsigned short i = 0; i < grupos.getSize(); i++) {
-        delete grupos.consult(i);
+        delete grupos[i];
     }
     for (unsigned short i = 0; i < partidos.getSize(); i++){
-        delete partidos.consult(i);
+        delete partidos[i];
     }
     for (unsigned short i = 0; i < selecciones.getSize(); i++) {
-        delete selecciones.consult(i);
+        delete selecciones[i];
     }
 }
 
@@ -26,13 +26,17 @@ void UdeaWorldCup::recursos() {
 
     unsigned long memObjetos = (selecciones.getSize() * sizeof(equipo)) + (selecciones.getSize() * 26 * sizeof(jugador));
 
-    cout << "Medicion de recursos" << endl;
+    cout << "\nMedicion de recursos" << endl;
     cout << "Iteraciones acumuladas: " << totalIteraciones << endl;
     cout << "Memoria nodos (listas): " << memGlobalNodos << " bytes" << endl;
     cout << "Memoria objetos: " << memObjetos << " bytes" << endl;
     cout << "TOTAL: " << (memGlobalNodos + memObjetos) / 1024.0 << " KB" << endl;
     cout << "----------------------------\n" << endl;
 
+}
+
+list<equipo*>& UdeaWorldCup::getSelecciones() {
+    return selecciones;
 }
 
 void UdeaWorldCup::loadData(){
@@ -74,7 +78,7 @@ void UdeaWorldCup::loadData(){
     }
 
     cout << "Cargadas " << selecciones.getSize() << " selecciones." << endl;
-    recursos();
+    // recursos();
 
 };
 
@@ -86,7 +90,7 @@ void UdeaWorldCup::sorteoPartidos() {
         grupo* group = new grupo('A' + i);
 
         for(int j = 0; j < 4; j++) {
-            group->addEquipo(selecciones.consult(i + (j * 12)));
+            group->addEquipo(selecciones[i + (j * 12)]);
             totalIteraciones++;
         }
 
@@ -100,14 +104,15 @@ void UdeaWorldCup::simularFaseGrupos(){
 
     cout << "FASE DE GRUPOS (72 Partidos)" << endl;
     string arb[3] = {"Arbitro 1", "Arbitro 2", "Arbitro 3"};
+    list<equipo*> terceros;
 
     for (unsigned short i = 0; i < grupos.getSize(); i++) {
-        grupo* grupo = grupos.consult(i);
+        grupo* grupo = grupos[i];
         list<equipo*>& equipos = grupo->getEquipos();
 
         for (unsigned short j = 0; j < 4; j++) {
             for (unsigned short k = j + 1; k < 4; k++) {
-                partido* part = new partido("Junio 2026", "12:00", "UdeA", arb, equipos.consult(j), equipos.consult(k), false, false);
+                partido* part = new partido("Junio 2026", "12:00", "UdeA", arb, equipos[j], equipos[k], false, false);
                 part->simular();
                 part->printResultado();
                 partidos.add(part, partidos.getSize());
@@ -117,15 +122,39 @@ void UdeaWorldCup::simularFaseGrupos(){
 
         grupo->ordenFIFA();
         grupo->printTablaPosiciones();
-        // Faltan iteraciones?
+        totalIteraciones += 100;
 
-        clasificados.add(equipos.consult(0), clasificados.getSize());
-        clasificados.add(equipos.consult(1), clasificados.getSize());
-
-        recursos();
+        clasificados.add(equipos[0], clasificados.getSize());
+        clasificados.add(equipos[1], clasificados.getSize());
+        terceros.add(equipos[2], terceros.getSize());
 
     }
+
+    // Ordenar terceros
+    for(unsigned short i = 0; i < terceros.getSize() - 1; i++) {
+
+        for(unsigned short j = 0; j < terceros.getSize() - i - 1; j++) {
+
+            equipo* equipo1 = terceros[j];
+            equipo* equipo2 = terceros[j+1];
+
+            if((*equipo1).operator<(*equipo2)) {
+                terceros.replace(equipo2, j);
+                terceros.replace(equipo1, j + 1);
+            }
+        totalIteraciones++;
+        }
+    }
+
+    // Mejores 8 terceros
+    for(unsigned short i = 0; i < 8; i++) {
+        clasificados.add(terceros[i], clasificados.getSize());
+    }
+
+    cout << "\nClasificados totales: "<< clasificados.getSize() << endl;
+    // recursos();
 }
+
 
 
 void UdeaWorldCup::simularEliminatorias() {
@@ -133,7 +162,7 @@ void UdeaWorldCup::simularEliminatorias() {
     list<equipo*>* rondaActual = new list<equipo*>;
 
     for(unsigned short i = 0; i < clasificados.getSize(); i++) {
-        rondaActual->add(clasificados.consult(i), rondaActual->getSize());
+        rondaActual->add(clasificados[i], rondaActual->getSize());
     }
 
     string arb[3] = {"A1", "A2", "A3"};
@@ -194,12 +223,13 @@ void UdeaWorldCup::simularEliminatorias() {
             }
 
             if(cantidadEquipos == 2) {
-                cout << "ENTRO A FINAL" << endl;
                 campeon = ganador;
                 subcampeon = perdedor;
             }
 
             totalIteraciones += 100;
+
+            // cout << "SIZE: " << rondaActual->getSize() << endl;
         }
 
         if(cantidadEquipos == 4) {
@@ -230,8 +260,6 @@ void UdeaWorldCup::simularEliminatorias() {
 
     cout << "\nCAMPEON DEL MUNDIAL: " << campeon->getPais() << endl;
 
-    recursos();
-
     delete rondaActual;
 }
 
@@ -249,11 +277,11 @@ void UdeaWorldCup::showStatsTorneo() {
     cout << "Diplomita uwu: " << cuarto->getPais() << endl;
 
     // goleador
-    jugador* mejor = campeon->getPlantilla().consult(0);
+    jugador* mejor = campeon->getPlantilla()[0];
 
     for(unsigned short i = 1; i < 26; i++) {
 
-        jugador* actual = campeon->getPlantilla().consult(i);
+        jugador* actual = campeon->getPlantilla()[i];
 
         if(actual->getGolesTotales() > mejor->getGolesTotales()) {
             mejor = actual;
@@ -263,11 +291,11 @@ void UdeaWorldCup::showStatsTorneo() {
     cout << "\nGOLEADOR DEL CAMPEON: " << mejor->getName() << " (" << mejor->getGolesTotales() << " goles)" << endl;
 
     // Equipo mas goles hist
-    equipo* mejorHistorico = selecciones.consult(0);
+    equipo* mejorHistorico = selecciones[0];
 
     for(unsigned short i = 1; i < selecciones.getSize(); i++) {
 
-        equipo* actual = selecciones.consult(i);
+        equipo* actual = selecciones[i];
         int golesActual = actual->getGolesFavorHist() + actual->getGolesFavorTorneo();
         int golesMejor = mejorHistorico->getGolesFavorHist() + mejorHistorico->getGolesFavorTorneo();
 
@@ -275,6 +303,29 @@ void UdeaWorldCup::showStatsTorneo() {
             mejorHistorico = actual;
         }
     }
+
+    // Goleador torneo
+    jugador* goleador = selecciones[0]->getPlantilla()[0];
+    equipo* equipoGoleador = selecciones[0];
+
+    for(unsigned short i = 0; i < selecciones.getSize(); i++) {
+
+        equipo* equipo = selecciones[i];
+
+        for(unsigned short j = 0; j < 26; j++) {
+
+            jugador* actual = equipo->getPlantilla()[j];
+
+            if(actual->getGolesTotales() > goleador->getGolesTotales()) {
+
+                goleador = actual;
+                equipoGoleador = equipo;
+            }
+        }
+    }
+
+    cout << "\nGOLEADOR DEL TORNEO: " << goleador->getName() << " - " << equipoGoleador->getPais()  << " (" << goleador->getGolesTotales()
+         << " goles)" << endl;
 
     cout << "\nMAS GOLES HISTORICOS ACTUALIZADOS: " << mejorHistorico->getPais() << " ("
          << mejorHistorico->getGolesFavorHist() + mejorHistorico->getGolesFavorTorneo() << ")" << endl;
@@ -288,7 +339,7 @@ void UdeaWorldCup::showStatsTorneo() {
 
     for(unsigned short i = 0; i < clasificados.getSize(); i++) {
 
-        string conf = clasificados.consult(i)->getConfederacion();
+        string conf = clasificados[i]->getConfederacion();
 
         if(conf == "UEFA") {
             uefa++;
@@ -324,5 +375,8 @@ void UdeaWorldCup::showStatsTorneo() {
     }
 
     cout << "\nMEJOR CONFEDERACION: " << dominante << " (" << mayor << " equipos clasificados)" << endl;
+
+    totalIteraciones += selecciones.getSize() * 26;
+
     recursos();
 }

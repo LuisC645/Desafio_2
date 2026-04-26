@@ -39,6 +39,8 @@ public:
     void simularEliminatorias();
     void showStatsTorneo();
 
+    list<equipo*>& getSelecciones();
+
 };
 
 #endif // UDEAWORLDCUP_H

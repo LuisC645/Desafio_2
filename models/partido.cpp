@@ -21,51 +21,82 @@ void partido::simular() {
 
     // Reiniciar stats partido a jugadores
     for(unsigned short i = 0; i < 26; i++) {
-        local->getPlantilla().consult(i)->restartStatsPartido();
-        visitante->getPlantilla().consult(i)->restartStatsPartido();
+        local->getPlantilla()[i]->restartStatsPartido();
+        visitante->getPlantilla()[i]->restartStatsPartido();
     }
 
-    // Ranking fifa
+    // Ranking FIFA
     unsigned short rankL = local->getRankingFIFA();
     unsigned short rankV = visitante->getRankingFIFA();
 
-    unsigned short probL = 100 - rankL;
-    unsigned short probV = 100 - rankV;
+    int fuerzaL = 60 - rankL;
+    int fuerzaV = 60 - rankV;
 
-    // Simular goles
-    golesL = rand() % 3;
-    golesV = rand() % 3;
+    if(fuerzaL < 1) fuerzaL = 1;
+    if(fuerzaV < 1) fuerzaV = 1;
 
-    if(probL > probV && rand()%100 < 20){
+    // Goles
+    golesL = rand()%3;
+    golesV = rand()%3;
+
+    // Bonus mejor
+    if(fuerzaL > fuerzaV && rand()%100 < 45){
         golesL++;
     }
-    if(probV > probL && rand()%100 < 20){
+    if(fuerzaV > fuerzaL && rand()%100 < 45){
         golesV++;
     }
+
+    // Diferencia grande
+    if(fuerzaL - fuerzaV > 20 && rand()%100 < 30){
+        golesL++;
+    }
+    if(fuerzaV - fuerzaL > 20 && rand()%100 < 30){
+        golesV++;
+    }
+
+    // Gol aleatorio ocasional
+    if(rand()%100 < 10){
+        golesL++;
+    }
+    if(rand()%100 < 10){
+        golesV++;
+    }
+
 
     // Eliminatoria
     prorroga = false;
 
-    if(eliminatoria && golesL == golesV) {
+    if(eliminatoria && golesL == golesV){
+
         prorroga = true;
 
-        if(rand()%2 == 0) {
-            golesL++;
-        }else {
-            golesV++;
+        if(fuerzaL > fuerzaV){
+            if(rand()%100 < 60) golesL++;
+            else golesV++;
+        } else{
+            if(rand()%100 < 60) golesV++;
+            else golesL++;
         }
     }
 
     unsigned short minutos = 90;
 
-    if(prorroga){
+    if(prorroga) {
         minutos = 120;
     }
 
-    // Posesión
-    posesionL = 50 + (probL - probV)/2;
+    // Posesion
+    posesionL = 50 + (fuerzaL - fuerzaV)/2;
 
-    // Procesar equipos
+    if(posesionL < 30){
+        posesionL = 30;
+    }
+    if(posesionL > 70){
+        posesionL = 70;
+    }
+
+    // Jugadores
     procesarEquipo(local, golesL, minutos);
     procesarEquipo(visitante, golesV, minutos);
 
@@ -73,16 +104,15 @@ void partido::simular() {
     local->registerResult(golesL, golesV);
     visitante->registerResult(golesV, golesL);
 
-    if(golesL > golesV){
+    if(golesL > golesV) {
         local->sumPuntos(3);
-    } else if(golesV > golesL){
+    }
+    else if(golesV > golesL) {
         visitante->sumPuntos(3);
-    } else if(golesL == golesV) {
+    }
+    else {
         local->sumPuntos(1);
         visitante->sumPuntos(1);
-    } else {
-        local->sumPuntos(0);
-        visitante->sumPuntos(0);
     }
 }
 
@@ -91,7 +121,7 @@ void partido::procesarEquipo(equipo* equipo, unsigned short golesMarcados, unsig
 
     for(unsigned short i=0; i<11; i++) {
 
-        jugador* j = equipo->getPlantilla().consult(i);
+        jugador* j = equipo->getPlantilla()[i];
 
         j->setMinPartido(minutos);
 
@@ -123,7 +153,7 @@ void partido::procesarEquipo(equipo* equipo, unsigned short golesMarcados, unsig
     // Goles
     for(unsigned short g = 0; g < golesMarcados; g++) {
         int idx = rand()%11;
-        equipo->getPlantilla().consult(idx)->registerGol();
+        equipo->getPlantilla()[idx]->registerGol();
     }
 }
 
@@ -150,7 +180,7 @@ void partido::printResultado(){
 
     for(int i=0; i<11; i++) {
 
-        jugador* j = local->getPlantilla().consult(i);
+        jugador* j = local->getPlantilla()[i];
 
         if(j->getGolesPartido() > 0) {
             cout << "#" << j->getDor() << "(" << j->getGolesPartido() << ") ";
@@ -169,7 +199,7 @@ void partido::printResultado(){
 
     for(int i=0; i<11; i++) {
 
-        jugador* j = visitante->getPlantilla().consult(i);
+        jugador* j = visitante->getPlantilla()[i];
 
         if(j->getGolesPartido() > 0) {
             cout << "#" << j->getDor() << "(" << j->getGolesPartido() << ") ";
@@ -195,7 +225,7 @@ void partido::printTablaJugadores(equipo* equipo){
 
     for(int i=0; i<11; i++) {
 
-        jugador* j = equipo->getPlantilla().consult(i);
+        jugador* j = equipo->getPlantilla()[i];
 
         cout << "  #"
              << left << setw(4) << j->getDor()
