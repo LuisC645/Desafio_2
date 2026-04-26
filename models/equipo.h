@@ -58,7 +58,7 @@ public:
     unsigned short getGolesContraHist() const;
     short getDiferenciaGoles() const;
 
-    list<jugador*>& getPlantilla() const;
+    list<jugador*>& getPlantilla();
 
     // Sobrecarga de operadores
     bool operator<(const equipo& other) const;
