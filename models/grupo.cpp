@@ -7,7 +7,7 @@ using namespace std;
 
 grupo::grupo(char id) : identificador(id) {}
 
-char grupo::getIdentificador() const {
+char grupo::getId() const {
     return identificador;
 }
 
@@ -15,29 +15,31 @@ list<equipo*>& grupo::getEquipos() {
     return equipos;
 }
 
-void grupo::agregarEquipo(equipo* e) {
+void grupo::addEquipo(equipo* equipo) {
 
     if (equipos.getSize() < 4)    {
-        equipos.add(e, equipos.getSize());
+        equipos.add(equipo, equipos.getSize());
     }
 }
 
-long grupo::ordenFIFA() {
-    long iter = 0;
-    unsigned int n = equipos.getSize();
+unsigned long grupo::ordenFIFA() {
 
-    for (unsigned int i = 0; i < n - 1; i++) {
-        for (unsigned int j = 0; j < n - i - 1; j++) {
+    long iter = 0;
+    unsigned short n = equipos.getSize();
+
+    for (unsigned short i = 0; i < n - 1; i++) {
+        for (unsigned short j = 0; j < n - i - 1; j++) {
+
             iter++;
 
-            equipo* e1 = equipos.consult(j);
-            equipo* e2 = equipos.consult(j + 1);
+            equipo* equipo1 = equipos.consult(j);
+            equipo* equipo2 = equipos.consult(j + 1);
 
             // Usaremos la sobrecarga del operador, toca revisar
-
-            // if (*e2 < *e1) {
-
-            //}
+            if ((*equipo2).operator<(*equipo1)) {
+                equipos.replace(equipo2, j);
+                equipos.replace(equipo1, j + 1);
+            }
         }
     }
     return iter;

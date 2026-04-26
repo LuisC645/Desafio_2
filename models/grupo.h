@@ -11,14 +11,11 @@ private:
 
 public:
     grupo(char id);
-    char getIdentificador() const;
+    char getId() const;
     list<equipo*>& getEquipos();
-    void agregarEquipo(equipo* e);
 
-
-    long ordenFIFA();
-
-
+    void addEquipo(equipo* equipo);
+    unsigned long ordenFIFA();
     void printTablaPosiciones();
 };
 

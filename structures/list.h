@@ -72,6 +72,21 @@ public:
         return temp->getDato();
     }
 
+    void replace(Type nuevoDato, unsigned short pos) {
+
+        if(pos >= size) {
+            return;
+        }
+
+        nodo<Type>* temp = first;
+
+        for(unsigned short i = 0; i < pos; i++) {
+            temp = temp->getNext();
+        }
+
+        temp->setDato(nuevoDato);
+    }
+
     unsigned int getSize() const {
         return size;
     }

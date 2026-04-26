@@ -88,5 +88,22 @@ list<jugador*>& equipo::getPlantilla(){
     return plantilla;
 }
 
-// La sobrecarga se definirá luego, en proceso de evaluación
 
+// sobrecarga rankFifa
+bool equipo::operator<(const equipo& otro) const {
+
+    // Comparar puntos
+    if(puntosTorneo != otro.puntosTorneo) {
+        return puntosTorneo < otro.puntosTorneo;
+    }
+    // Comparar diferencia de goles
+    if(getDiferenciaGoles() != otro.getDiferenciaGoles()) {
+        return getDiferenciaGoles() < otro.getDiferenciaGoles();
+    }
+    // Comparar goles a favor
+    if(golesFavorTorneo != otro.golesFavorTorneo) {
+        return golesFavorTorneo < otro.golesFavorTorneo;
+    }
+    // Comparar ranking FIFA
+    return rankingFIFA > otro.rankingFIFA;
+}

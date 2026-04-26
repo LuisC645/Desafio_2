@@ -70,6 +70,7 @@ public:
     void restartStatsTorneo();
 
     list<jugador*>& getPlantilla();
+
 };
 
 #endif // EQUIPO_H

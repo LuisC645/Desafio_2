@@ -15,6 +15,11 @@ private:
     list<equipo*> clasificados;
     unsigned long totalIteraciones;
 
+    equipo* campeon;
+    equipo* subcampeon;
+    equipo* tercero;
+    equipo* cuarto;
+
     void recursos();
     void sortEquiposRank();
     void showGoleadores();
