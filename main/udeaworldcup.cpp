@@ -52,6 +52,8 @@ void UdeaWorldCup::loadData(){
     string partidosEmpatadosHist;
     string partidosPerdidosHist;
 
+    getline(data, line);
+
     while(getline(data, line)){
 
         if(line.empty()){
@@ -85,11 +87,11 @@ void UdeaWorldCup::loadData(){
 void UdeaWorldCup::sorteoPartidos() {
 
     // Por rank
-    for(unsigned int i = 0; i < 12; i++) {
+    for(unsigned short i = 0; i < 12; i++) {
 
         grupo* group = new grupo('A' + i);
 
-        for(int j = 0; j < 4; j++) {
+        for(unsigned short j = 0; j < 4; j++) {
             group->addEquipo(selecciones[i + (j * 12)]);
             totalIteraciones++;
         }

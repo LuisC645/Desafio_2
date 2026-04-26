@@ -24,7 +24,7 @@ void grupo::addEquipo(equipo* equipo) {
 
 unsigned long grupo::ordenFIFA() {
 
-    long iter = 0;
+    unsigned short iter = 0;
     unsigned short n = equipos.getSize();
 
     for (unsigned short i = 0; i < n - 1; i++) {
@@ -51,7 +51,7 @@ void grupo::printTablaPosiciones() {
     // Encabezado
     cout << "  " << left << setw(22) << "Pais" << setw(6)  << "Pts" << setw(6)  << "GF" << setw(6)  << "GC" << "Dif" << endl;
 
-    for (unsigned int i = 0; i < equipos.getSize(); i++) {
+    for (unsigned short i = 0; i < equipos.getSize(); i++) {
         equipo* equipo = equipos[i];
 
         short dif = equipo->getDiferenciaGoles();

@@ -29,8 +29,8 @@ void partido::simular() {
     unsigned short rankL = local->getRankingFIFA();
     unsigned short rankV = visitante->getRankingFIFA();
 
-    int fuerzaL = 60 - rankL;
-    int fuerzaV = 60 - rankV;
+    int fuerzaL = 100 - rankL;
+    int fuerzaV = 100 - rankV;
 
     if(fuerzaL < 1) fuerzaL = 1;
     if(fuerzaV < 1) fuerzaV = 1;
