@@ -10,7 +10,7 @@ equipo::equipo(string pais, string confederacion, string tecnico, unsigned short
     partidosEmpatadosHist(partidosEmpatadosHist), partidosPerdidosHist(partidosPerdidosHist),
     puntosTorneo(0), golesFavorTorneo(0), golesContraTorneo(0){
 
-    for(int i=1; i <= 26; i++){
+    for(unsigned short i=1; i <= 26; i++){
 
         string pos = "";
 
@@ -32,7 +32,7 @@ equipo::equipo(string pais, string confederacion, string tecnico, unsigned short
 
 // Destructor
 equipo::~equipo(){
-    for(unsigned int i = 0; i < 26; i++){
+    for(unsigned short i = 0; i < 26; i++){
         delete plantilla.consult(i);
     }
 }

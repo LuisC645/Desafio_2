@@ -72,6 +72,11 @@ public:
         return temp->getDato();
     }
 
+    // Sobrecarga op[]
+    Type operator[](unsigned short pos) const {
+        return consult(pos);
+    }
+
     void replace(Type nuevoDato, unsigned short pos) {
 
         if(pos >= size) {

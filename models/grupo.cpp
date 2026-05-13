@@ -24,7 +24,7 @@ void grupo::addEquipo(equipo* equipo) {
 
 unsigned long grupo::ordenFIFA() {
 
-    long iter = 0;
+    unsigned short iter = 0;
     unsigned short n = equipos.getSize();
 
     for (unsigned short i = 0; i < n - 1; i++) {
@@ -32,11 +32,16 @@ unsigned long grupo::ordenFIFA() {
 
             iter++;
 
-            equipo* equipo1 = equipos.consult(j);
-            equipo* equipo2 = equipos.consult(j + 1);
+            equipo* equipo1 = equipos[j];
+            equipo* equipo2 = equipos[j+1];
 
+<<<<<<< HEAD
             // Usaremos la sobrecarga del operador
             if ((*equipo2).operator<(*equipo1)) {
+=======
+            // Usaremos la sobrecarga del operador, revisado
+            if ((*equipo1).operator<(*equipo2)) {
+>>>>>>> 93fce3a4a6b1d80f15126b6f48e18f93cba5d219
                 equipos.replace(equipo2, j);
                 equipos.replace(equipo1, j + 1);
             }
@@ -49,27 +54,16 @@ void grupo::printTablaPosiciones() {
     cout << "Grupo " << identificador << ":" << endl;
 
     // Encabezado
-    cout << "  " << left
-         << setw(22) << "Pais"
-         << setw(6)  << "Pts"
-         << setw(6)  << "GF"
-         << setw(6)  << "GC"
-         << "Dif" << endl;
+    cout << "  " << left << setw(22) << "Pais" << setw(6)  << "Pts" << setw(6)  << "GF" << setw(6)  << "GC" << "Dif" << endl;
 
-    for (unsigned int i = 0; i < equipos.getSize(); i++) {
-        equipo* e = equipos.consult(i);
+    for (unsigned short i = 0; i < equipos.getSize(); i++) {
+        equipo* equipo = equipos[i];
 
-
-        short dif = e->getDiferenciaGoles();
+        short dif = equipo->getDiferenciaGoles();
         string difConSigno = (dif > 0 ? "+" : "") + to_string(dif);
 
-
-        cout << "  " << left
-             << setw(22) << e->getPais()
-             << setw(6)  << e->getPuntosTorneo()
-             << setw(6)  << e->getGolesFavorTorneo()
-             << setw(6)  << e->getGolesContraTorneo()
-             << setw(6)  << difConSigno << endl;
+        cout << "  " << left << setw(22) << equipo->getPais() << setw(6)  << equipo->getPuntosTorneo() << setw(6)  << equipo->getGolesFavorTorneo()
+             << setw(6)  << equipo->getGolesContraTorneo() << setw(6)  << difConSigno << endl;
     }
     cout << endl;
 }

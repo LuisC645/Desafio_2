@@ -9,34 +9,34 @@ unsigned long memGlobalNodos = 0;
 int main() {
 
 
-    cout << "test" << endl;
+    cout << "-----------------UdeAWorldCup---------------" << endl;
 
     UdeaWorldCup mundial;
 
-
-    cout << "Cargando archivo\n" << endl;
+    cout << "Cargando archivo" << endl;
     mundial.loadData();
-    cout << "ok" << endl;
 
+    // Imprimir selecciones
+    cout << "\nListado de selecciones convocadas: "<< endl;
+    list<equipo*>& equipos = mundial.getSelecciones();
 
-    cout << "\nSorteo\n" << endl;
+    for(unsigned short i = 0; i < equipos.getSize(); i++) {
+
+        cout << equipos[i]->getPais()
+        << " - Ranking FIFA: "
+        << equipos[i]->getRankingFIFA()
+        << endl;
+    }
+
+    cout << "\n-------- SORTEO ---------" << endl;
     mundial.sorteoPartidos();
-    cout << "ok" << endl;
 
-
-
-    cout << "fase grupos\n" << endl;
+    cout << "\n-------- FASE DE GRUPOS ---------" << endl;
     mundial.simularFaseGrupos();
-    cout << "ok" << endl;
 
-    cout << "eliminatorias" << endl;
+    cout << "\n-------- ELIMINATORIAS ---------" << endl;
     mundial.simularEliminatorias();
-    cout << "ok" << endl;
 
-    cout << "finales????" << endl;
-    cout << "finales?????\n" << endl;
     mundial.showStatsTorneo();
-    cout << "ok" << endl;
 
-    return 0;
 }
