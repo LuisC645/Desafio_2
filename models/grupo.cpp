@@ -35,7 +35,7 @@ unsigned long grupo::ordenFIFA() {
             equipo* equipo1 = equipos.consult(j);
             equipo* equipo2 = equipos.consult(j + 1);
 
-            // Usaremos la sobrecarga del operador, toca revisar
+            // Usaremos la sobrecarga del operador
             if ((*equipo2).operator<(*equipo1)) {
                 equipos.replace(equipo2, j);
                 equipos.replace(equipo1, j + 1);
